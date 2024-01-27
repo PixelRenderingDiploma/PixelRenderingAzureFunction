@@ -3,13 +3,9 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
-using Azure.Identity;
 using Azure.Storage.Sas;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Diagnostics;
 using Azure.Storage;
-using System.Text;
 
 namespace PixelRenderer_AzureFunctions
 {
