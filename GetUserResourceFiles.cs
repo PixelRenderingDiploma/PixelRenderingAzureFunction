@@ -34,7 +34,8 @@ namespace PixelRenderer_AzureFunctions
             var directories = new Dictionary<string, (string Path, List<BlobItem> Files)>();
             var files = new List<BlobItem>();
 
-            await foreach (var blob in containerClient.GetBlobsAsync())
+            var blobPrefix = req.Query["blobPrefix"];
+            await foreach (var blob in containerClient.GetBlobsAsync(prefix: blobPrefix))
             {
                 var pathSegments = blob.Name.Split('/');
 
