@@ -19,7 +19,7 @@ namespace PixelRenderer_AzureFunctions
         }
 
         [Function("GetUserBlobSasUrl")]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
             _logger.LogInformation("C# HTTP trigger function GetUserBlobSasUrl processed a request.");
             
