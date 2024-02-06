@@ -18,7 +18,7 @@ namespace PixelRenderer_AzureFunctions
         }
 
         [Function("GetUserResourceFiles")]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
             _logger.LogInformation("C# HTTP trigger GetUserResourceFiles function processed a request.");
 
