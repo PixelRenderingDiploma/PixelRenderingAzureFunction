@@ -33,26 +33,16 @@ namespace PixelRenderer_AzureFunctions
             await containerClient.CreateIfNotExistsAsync();
 
             var blobPath = req.Query["blobPath"];
-            var startDate = DateTimeOffset.UtcNow.AddMinutes(-1);
             var expiryDate = DateTimeOffset.UtcNow.AddMinutes(10);
 
-            var sasBuilder = new BlobSasBuilder
-            {
-                BlobContainerName = containerName,
-                BlobName = blobPath,
-                Resource = "b", // "b" for blob, "c" for container
-                StartsOn = startDate,
-                ExpiresOn = expiryDate
-            };
-            sasBuilder.SetPermissions(BlobSasPermissions.Read | BlobSasPermissions.Write | BlobSasPermissions.Delete);
-
-            var sasToken = sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(blobServiceClient.AccountName, "Unp8Muly8GPMmN24Oc61wbCwBCv+EpObRuhUf9mAUiPHCYnm9+ws12HVnTmlkTRo5WQPDYqNZ6MT+AStLFlKzQ==")).ToString();
-
-            var frontDoorUrl = Environment.GetEnvironmentVariable("STORAGE_URL");
-            var sasUrl = $"{frontDoorUrl}/{containerName}/{blobPath}?{sasToken}";
+            var blobClient = containerClient.GetBlobClient(blobPath);
+            var sasUrl = blobClient.GenerateSasUri(
+                BlobSasPermissions .Read | BlobSasPermissions .Write | BlobSasPermissions .Delete,
+                expiryDate
+            );
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            response.WriteString(sasUrl);
+            response.WriteString(sasUrl.ToString());
             return response;
         }
     }
